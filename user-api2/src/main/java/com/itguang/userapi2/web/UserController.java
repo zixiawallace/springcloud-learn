@@ -20,11 +20,10 @@ public class UserController {
     private DiscoveryClient client;
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String hello() {
-
+    public String hello(String name) {
         ServiceInstance instance = client.getLocalServiceInstance();
         log.info("host={},service_id={},port={}", instance.getHost(), instance.getServiceId(), instance.getPort());
-        return "hello world from user-api2";
+        return "hello world from user-api2" + name;
 
     }
 

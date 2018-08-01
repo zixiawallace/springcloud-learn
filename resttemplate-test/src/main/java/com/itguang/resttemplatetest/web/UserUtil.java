@@ -22,18 +22,18 @@ public class UserUtil {
 
     RestTemplate restTemplate = new RestTemplate();
 
+    /**
+     * 当前服务不是服务者也不是消费者，仍然可以用 RestTemplate 访问 restfull 接口
+     * @return
+     */
     //无参数的 get 请求
 
     @RequestMapping("getAll2")
     public List<UserEntity> getAll() {
         List<UserEntity> list = restTemplate.getForObject("http://localhost/getAll", List.class);
-
-
         System.out.println(list.toString());
         return list;
-
     }
-
 
     @RequestMapping("getForEntity")
     public List<UserEntity> getAll2() {
@@ -98,7 +98,6 @@ public class UserUtil {
         HashMap<String, String> map = new HashMap<>();
          map.put("type", type);
 
-
         ResponseEntity<String> responseEntity = restTemplate.postForEntity("http://localhost/saveByType/{type}", userEntity, String.class,map);
         String body = responseEntity.getBody();
 
@@ -106,9 +105,14 @@ public class UserUtil {
 
     }
 
-
-
-
+    //不管当前服务是消费者还是服务者，或者没有注册到注册中心，只是普通的一个应用服务，只要服务提供者注册
+    //到了注册中心，当前服务就可以访问。
+    @RequestMapping("getHello")
+    public String getHello(){
+        String hello = restTemplate.getForObject("http://localhost:8001/hello",String.class);
+        System.out.println("hello: "+ hello);
+        return hello;
+    }
 
 
 

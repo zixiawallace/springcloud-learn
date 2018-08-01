@@ -27,6 +27,4 @@ public class ConsumerController {
         String body = reponse.getBody();
         return body;
     }
-
-
 }
